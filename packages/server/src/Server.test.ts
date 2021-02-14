@@ -13,24 +13,27 @@ describe("Server tests", () => {
   afterAll(async () => {
     return await server.stop();
   });
-  it("Expects the server to create a channel if it doesn't exist", () => {
+  it("Expects the server to create a channel if it doesn't exist", async () => {
     const wsClient1 = new Websocket(
       `ws://localhost:${SERVER_PORT}/?channelID=${channelID}&clientID=${clientID1}`
     );
 
-    wsClient1.onopen = () => {
-      expect((server as Server).channels[channelID].length).toBe(1);
+    await new Promise((resolve) => {
+      wsClient1.onopen = () => {
+        expect((server as Server).channels[channelID].length).toBe(1);
 
-      const wsClient2 = new Websocket(
-        `ws://localhost:${SERVER_PORT}/?channelID=${channelID}&clientID=${clientID2}`
-      );
+        const wsClient2 = new Websocket(
+          `ws://localhost:${SERVER_PORT}/?channelID=${channelID}&clientID=${clientID2}`
+        );
 
-      wsClient2.onopen = () => {
-        expect((server as Server).channels[channelID].length).toBe(2);
+        wsClient2.onopen = () => {
+          expect((server as Server).channels[channelID].length).toBe(2);
 
-        wsClient2.close();
-        wsClient1.close();
+          wsClient2.close();
+          wsClient1.close();
+          resolve(null);
+        };
       };
-    };
+    });
   });
 });
