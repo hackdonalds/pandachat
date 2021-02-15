@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo x"
+    "test": "echo x",
+    "dev":"echo x"
   },
   "license": "MIT"
 }
