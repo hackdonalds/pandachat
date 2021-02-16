@@ -4,6 +4,7 @@ import { SERVER_PORT } from "../../config";
 import * as WebSocket from "ws";
 import url from "url";
 import Emitter from "@hackdonalds/emitter";
+import { SocketMessageBearerType } from "@pandachat/contracts";
 type Username = string;
 export class Server {
   _server: http.Server;
@@ -51,6 +52,12 @@ export class Server {
       } else {
         ws.send(`This channel already has a user named ${clientID}!`);
       }
+      ws.on("message", (data) => {
+        const parsedMessage: SocketMessageBearerType = JSON.parse(
+          data as string
+        );
+        console.log("Incoming message : ", parsedMessage);
+      });
       ws.send("HI");
     });
   }
