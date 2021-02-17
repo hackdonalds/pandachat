@@ -4,7 +4,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo x",
-    "dev":"echo x"
+    "dev": "echo x"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "lit-element": "^2.4.0"
+  }
 }
