@@ -2,20 +2,21 @@ import express, { Express } from "express";
 import http from "http";
 import { SERVER_PORT } from "../../config";
 import * as WebSocket from "ws";
-import url from "url";
 import Emitter from "@hackdonalds/emitter";
-import { SocketMessageBearerType } from "@pandachat/contracts";
-type Username = string;
+import { Channel, ClientMessage, ServerMessage, User } from "@pandachat/core";
+import { SocketMessage } from "@pandachat/core/types";
+type SocketConnection = WebSocket & User
+
 export class Server {
   _server: http.Server;
   app: Express;
   wss: WebSocket.Server;
   _eventbus: Emitter;
-  channels: { [id: string]: Username[] };
+  channels: Channel[];
   constructor() {
     this.app = express();
     this._eventbus = new Emitter();
-    this.channels = {};
+    this.channels = [];
     //initialize a simple http server
     this._server = http.createServer(this.app);
     this.wss = new WebSocket.Server({ server: this._server });
@@ -33,32 +34,37 @@ export class Server {
     this._server.close();
   }
   initSocketHandler() {
-    this.wss.on("connection", (ws: WebSocket, req) => {
-      const channelID = url.parse(req.url as string, true).query
-        .channelID as string;
-      const clientID = url.parse(req.url as string, true).query
-        .clientID as string;
+    this.wss.on("connection", (ws: SocketConnection) => {
 
-      // Require the query parameter to connect xxx
-      if (!channelID || !clientID) {
-        ws.send("Please provide a channel ID by ?channelID=xxx&clientID=Xxx");
-      }
-      // Create channelif it doesn't exist
-      const currentChannel = this.channels[channelID];
-      if (!currentChannel) {
-        this.channels[channelID] = [clientID];
-      } else if (!currentChannel.includes(clientID)) {
-        this.channels[channelID].push(clientID);
-      } else {
-        ws.send(`This channel already has a user named ${clientID}!`);
-      }
-      ws.on("message", (data) => {
-        const parsedMessage: SocketMessageBearerType = JSON.parse(
-          data as string
-        );
-        console.log("Incoming message : ", parsedMessage);
+      ws.on("message", (data: string) => {
+        const parsedMessage: ClientMessage = JSON.parse(
+          data
+        ) as SocketMessage;
+        
+        Object.keys(parsedMessage)
+        .forEach(key => {
+          eventTriggers[key as keyof SocketMessage](ws,parsedMessage)
+        })
       });
-      ws.send("HI");
+      ws.send("pong!");
     });
   }
+  send(ws: SocketConnection, message: ServerMessage) {
+    ws.send(JSON.stringify(message))
+  }
+}
+
+// https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-0.html#example-18
+// https://golang.org/doc/effective_go#blank
+type HandlerFN = (ws:SocketConnection, message: ClientMessage)=>void
+type ET = { [k in keyof Partial<SocketMessage>]: HandlerFN }
+const eventTriggers: ET = {
+  "user:declare": (ws:SocketConnection,message:SocketMessage) => {
+    ws.username = message["user:declare"].username
+  },
+  "channel.users:list": () => { },
+  "channel:close": () => { },
+  "channel:open": () => { },
+  "user.speaking:start": () => { },
+  "user.speaking:stop": () => { },
 }
