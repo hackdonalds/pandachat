@@ -1,1 +1,2 @@
-export { ClientMessage, Channel, ServerMessage, User } from "./types";
+export { Channel } from "./Channel";
+export {User} from "./User"

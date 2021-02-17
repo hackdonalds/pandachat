@@ -22,8 +22,10 @@ type EventName = "user:declare" |
   "user.speaking.stop";
 
 type Payload = {
-  username?: string
+  name?: string
   profilePicture?: string
-  channelName?: string
 } & User[]
-export type SocketMessage = { [k in EventName]: Payload  }
+export type SocketMessage = {
+  type: EventName
+  payload: Payload
+}
