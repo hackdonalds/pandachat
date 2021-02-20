@@ -1,1 +1,1 @@
-export {Emitter} from "./Emitter"
+export { Emitter } from "./Emitter"

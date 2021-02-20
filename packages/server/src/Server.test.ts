@@ -1,7 +1,7 @@
 import { Server } from "./Server"
 import WebSocket from "ws"
 import { PORT } from "./config"
-import { SocketMessage } from "./types"
+
 const connectionURL = `ws://localhost:${PORT}/ws`
 describe("Test", () => {
     let server: Server | null = null
@@ -19,7 +19,7 @@ describe("Test", () => {
         await new Promise(resolve => {
 
             client.onmessage = ({ data }) => {
-                const { event } = JSON.parse(data as string) as SocketMessage
+                const { event } = JSON.parse(data as string)
                 if (event === "welcome") {
                     receivedWelcomeMessage = true
                 }
@@ -41,11 +41,10 @@ describe("Test", () => {
         let userNotifiedOfSecondUser = false
 
         user1.onmessage = ({ data }) => {
-            const parsedMessage = JSON.parse(data as string) as SocketMessage
+            const parsedMessage = JSON.parse(data as string)
             const { event, payload } = parsedMessage
-            console.log(event, payload)
+
             if (event === "user.joined" && payload.name == username2) {
-                console.log("User notified")
                 userNotifiedOfSecondUser = true
             }
         }
@@ -57,7 +56,7 @@ describe("Test", () => {
                         username: username1,
                         channelName: "test-channel"
                     }
-                } as SocketMessage))
+                }))
                 resolve(null)
             }
         })
@@ -69,7 +68,7 @@ describe("Test", () => {
                     username: username2,
                     channelName: "test-channel"
                 }
-            } as SocketMessage))
+            }))
         }
 
         await new Promise(resolve => {
@@ -80,5 +79,5 @@ describe("Test", () => {
                 resolve(null)
             }, 1500)
         })
-    })
+    }, 10000)
 })

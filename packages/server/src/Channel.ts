@@ -1,6 +1,6 @@
 import { User } from "./User"
 // import WebSocket from "ws"
-import { SocketMessage } from "./types"
+
 export class Channel {
     users: User[]
     constructor(public name: string) {
@@ -24,16 +24,16 @@ export class Channel {
         })
     }
     broadcastUserLeft(user: User) {
-        this.broadcast(({
+        this.broadcast({
             event: "user.left",
             payload: user.toJSON()
-        } as SocketMessage))
+        })
     }
     broadcastUserJoined(user: User) {
-        this.broadcast(({
+        this.broadcast({
             event: "user.joined",
             payload: user.toJSON()
-        } as SocketMessage))
+        })
     }
     broadcast(data: any) {
         this.users.forEach(user => {

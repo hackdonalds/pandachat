@@ -4,8 +4,8 @@ import { Channel, createOrGetChannel } from "./Channel"
 import { User } from "./User"
 import { Emitter } from "@pandachat/core"
 import * as WebSocket from "ws";
-import { SocketMessage } from "./types";
 import path from "path"
+
 
 export class Server {
   app: Express
@@ -43,7 +43,7 @@ export class Server {
       let channel: null | Channel = null;
       let user: null | User = null;
       ws.on("message", (data: string) => {
-        const message: SocketMessage = JSON.parse(data) as SocketMessage;
+        const message = JSON.parse(data);
         if (message.event === "init") {
           // Create a new user
           user = new User((message.payload.username as string), ws)
@@ -76,5 +76,5 @@ const cors = (app: Express) => {
 /* istanbul ignore next */
 export const static_serve = (app: Express) => {
   const servePath = path.join(__dirname, "../../client/src");
-  app.use("/static", express.static(servePath));
+  app.use("/", express.static(servePath));
 };
