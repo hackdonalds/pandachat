@@ -18,7 +18,7 @@ export class SocketClient extends Emitter {
         super()
         this.username = username
         this.channelName = channelName
-        this.connection = new WebSocket(url || `ws://localhost:8080/ws`)
+        this.connection = new WebSocket(url || `ws://${host}/ws`)
 
         this.connection.onmessage = ({ data }) => this.emit("message", JSON.parse(data))
 

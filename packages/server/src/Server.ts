@@ -14,7 +14,6 @@ export class Server {
   constructor(public PORT: number) {
     this.app = express();
     cors(this.app);
-
     static_serve(this.app);
     this.channels = [];
     //initialize a simple http server
@@ -74,4 +73,7 @@ const cors = (app: Express) => {
 export const static_serve = (app: Express) => {
   const servePath = path.join(__dirname, "../../client/src");
   app.use("/", express.static(servePath));
+  app.get("*", (_, res) => {
+    res.sendFile(path.join(servePath, "index.html"))
+  })
 };
