@@ -2,7 +2,6 @@ import express, { Express } from "express";
 import http from "http";
 import { Channel, createOrGetChannel } from "./Channel"
 import { User } from "./User"
-import { Emitter } from "@pandachat/core"
 import * as WebSocket from "ws";
 import path from "path"
 
@@ -11,14 +10,12 @@ export class Server {
   app: Express
   channels: Channel[]
   wss: WebSocket.Server
-  _eventbus: Emitter
   _server: http.Server
   constructor(public PORT: number) {
     this.app = express();
     cors(this.app);
 
     static_serve(this.app);
-    this._eventbus = new Emitter();
     this.channels = [];
     //initialize a simple http server
     this._server = http.createServer(this.app);

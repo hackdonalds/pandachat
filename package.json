@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "lerna run dev --parallel",
     "build": "lerna run build --parallel",
-    "test": "lerna run test"
+    "test": "lerna run build && lerna run test"
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",
