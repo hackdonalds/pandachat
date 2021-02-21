@@ -1,6 +1,6 @@
-import { LitElement, html, css } from "./lib/lit-element.bundle.js"
+import { LitElement, html, css } from "./vendor/lit-element.min.js"
 import { Store } from "./store/Store.js"
-import { Router } from 'https://unpkg.com/@vaadin/router';
+import { Router } from './vendor/router.js';
 import "./components/x-channel.js"
 import "./components/x-login-screen.js"
 

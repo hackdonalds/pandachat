@@ -2,5 +2,9 @@
   "name": "@pandachat/client",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "lit-element": "^2.4.0",
+    "mobx": "^6.1.7"
+  }
 }
