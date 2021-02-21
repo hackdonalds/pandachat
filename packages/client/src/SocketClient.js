@@ -1,3 +1,4 @@
+import { Emitter } from "./lib/Emitter.js"
 /**
  * @typedef {Object} SocketClientOpts
  * @property {string} username
@@ -6,16 +7,28 @@
  */
 
 const { host, hash } = window.location
-export class SocketClient {
+export class SocketClient extends Emitter {
     /**
      * 
-     * @param {SocketClientOpts} param0 
+     * @param {SocketClientOpts} opts 
      */
     constructor({
         username, channelName, url
     }) {
-        this.connection = new WebSocket(url)
-        this.connection.onopen = () => {
+        super()
+        this.username = username
+        this.channelName = channelName
+        this.connection = new WebSocket(url || `ws://localhost:8080/ws`)
+
+        this.connection.onmessage = ({ data }) => this.emit("message", JSON.parse(data))
+
+        this.connection.onclose = () => {
+            this.emit("close")
+        }
+        this.connection.onopen = () => this.emit("open")
+        this.connection.onerror = (err) => this.emit("error", err)
+
+        this.on("open", () => {
             this.send({
                 event: "init",
                 payload: {
@@ -23,7 +36,8 @@ export class SocketClient {
                     channelName: channelName || hash
                 }
             })
-        }
+            this.emit("initialized")
+        })
     }
     /**
      * 
@@ -31,5 +45,8 @@ export class SocketClient {
      */
     send(data) {
         this.connection?.send(JSON.stringify(data))
+    }
+    close() {
+        this.connection.close()
     }
 }
