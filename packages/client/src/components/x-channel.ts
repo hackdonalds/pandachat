@@ -1,4 +1,4 @@
-import { LitElement, html } from "../vendor/lit-element.min.js"
+import { LitElement, html } from "lit-element"
 class XChannel extends LitElement {
     render() {
         return html`Channel ${JSON.stringify(this.location.params)}`

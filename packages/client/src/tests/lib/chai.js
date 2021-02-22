@@ -6,8 +6,8 @@ var __commonJS = (callback, module) => () => {
   return module.exports;
 };
 
-// chai.js
-var require_chai = __commonJS((exports, module) => {
+// <stdin>
+var require_stdin = __commonJS((exports, module) => {
   (function(f) {
     if (typeof exports === "object" && typeof module !== "undefined") {
       module.exports = f();
@@ -3497,4 +3497,4 @@ var require_chai = __commonJS((exports, module) => {
     }, {}]}, {}, [1])(1);
   });
 });
-export default require_chai();
+export default require_stdin();

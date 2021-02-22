@@ -71,7 +71,7 @@ const cors = (app: Express) => {
 
 /* istanbul ignore next */
 export const static_serve = (app: Express) => {
-  const servePath = path.join(__dirname, "../../client/src");
+  const servePath = path.join(__dirname, "../../client/");
   app.use("/", express.static(servePath));
   app.get("*", (_, res) => {
     res.sendFile(path.join(servePath, "index.html"))

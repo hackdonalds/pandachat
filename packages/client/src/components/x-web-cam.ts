@@ -1,5 +1,5 @@
-import { LitElement, html } from "../vendor/lit-element.min.js"
-import "./x-webcam-permission.js"
+import { LitElement, html } from "lit-element"
+import "./x-webcam-permission"
 
 class XWebCam extends LitElement {
     static get properties() {

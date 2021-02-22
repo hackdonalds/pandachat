@@ -1,8 +1,8 @@
-import { LitElement, html, css } from "./vendor/lit-element.min.js"
-import { Store } from "./store/Store.js"
-import { Router } from './vendor/router.js';
-import "./components/x-channel.js"
-import "./components/x-login-screen.js"
+import { LitElement, html, css } from "lit-element"
+import { Store } from "./store/Store"
+import { Router } from '@vaadin/router';
+import "./components/x-channel"
+import "./components/x-login-screen"
 
 class XApp extends LitElement {
     static get properties() {
