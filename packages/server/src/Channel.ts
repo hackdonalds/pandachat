@@ -1,4 +1,4 @@
-import { UserJoined, UserLeft } from "./SocketMessageTypes"
+import { MessageBridgeType } from "./SocketMessageTypes"
 import { User } from "./User"
 // import WebSocket from "ws"
 
@@ -28,15 +28,16 @@ export class Channel {
         this.broadcast({
             event: "user.left",
             payload: user.toJSON()
-        } as UserLeft)
+        })
     }
     broadcastUserJoined(user: User) {
         this.broadcast({
             event: "user.joined",
             payload: user.toJSON()
-        } as UserJoined)
+        })
     }
-    broadcast(data: any) {
+    // Outgoing messages
+    broadcast(data: MessageBridgeType) {
         this.users.forEach(user => {
             user.send(data)
         })

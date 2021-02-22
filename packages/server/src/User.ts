@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import WebSocket from "ws"
+import { MessageBridgeType } from './SocketMessageTypes';
 export class User {
     ws?: WebSocket
     id: string
@@ -9,7 +10,8 @@ export class User {
             this.ws = ws
         }
     }
-    send(data: any) {
+    // Outgoing messages
+    send(data: MessageBridgeType) {
         this.ws?.send(JSON.stringify(data))
     }
     toJSON() {

@@ -1,5 +1,5 @@
 import Emitter from "@hackdonalds/emitter"
-import * as SocketMessageTypes from "../../server/src/SocketMessageTypes"
+import { MessageBridgeType } from "../../server/src/SocketMessageTypes"
 import { User } from "../../server/src/User"
 type SocketClientOpts = {
     username: string
@@ -22,10 +22,7 @@ export class SocketClient extends Emitter<"init" | "open" | "close" | "message" 
         this.connection = new WebSocket(url || `ws://${host}/ws`)
         this.channelUsers = []
         this.connection.onmessage = ({ data }) => this.emit("message", JSON.parse(data))
-
-        this.connection.onclose = () => {
-            this.emit("close")
-        }
+        this.connection.onclose = () => this.emit("close")
         this.connection.onopen = () => this.emit("open")
         this.connection.onerror = (err) => this.emit("error", err)
 
@@ -39,12 +36,13 @@ export class SocketClient extends Emitter<"init" | "open" | "close" | "message" 
             })
             this.emit("initialized")
         })
-        this.on("message", (data: SocketMessageTypes.UserJoined | SocketMessageTypes.UserLeft) => {
+        // Incoming Messages
+        this.on("message", (data: MessageBridgeType) => {
             console.log("User joined:", data.payload)
         })
     }
-
-    send(data: SocketMessageTypes.InitEvent) {
+    // Outgoing Messages
+    send(data: MessageBridgeType) {
         this.connection?.send(JSON.stringify(data))
     }
     close() {

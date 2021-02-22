@@ -17,3 +17,5 @@ export type UserLeft = {
     event: "user.left"
     payload: ReturnType<User["toJSON"]>
 }
+
+export type MessageBridgeType = UserLeft | UserJoined | InitEvent
