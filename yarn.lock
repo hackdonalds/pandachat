@@ -930,6 +930,11 @@
     unique-filename "^1.1.1"
     which "^1.3.1"
 
+"@hackdonalds/emitter@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@hackdonalds/emitter/-/emitter-0.6.0.tgz#756f2af0175299a6ecc20ea24435c646841180d9"
+  integrity sha512-/W5syakq+J75GMB52Hs1SAJ3neyUV4s5lB7reP7fTd50rWViabuf8i7ffeKDggX37Ikbpofo4M/QMTyWgOHWZw==
+
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@istanbuljs/load-nyc-config/-/load-nyc-config-1.1.0.tgz#fd3db1d59ecf7cf121e80650bb86712f9b55eced"

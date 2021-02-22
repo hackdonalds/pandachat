@@ -4,6 +4,7 @@ import { Channel, createOrGetChannel } from "./Channel"
 import { User } from "./User"
 import * as WebSocket from "ws";
 import path from "path"
+import { InitEvent } from "./SocketMessageTypes";
 
 
 export class Server {
@@ -39,7 +40,7 @@ export class Server {
       let channel: null | Channel = null;
       let user: null | User = null;
       ws.on("message", (data: string) => {
-        const message = JSON.parse(data);
+        const message = JSON.parse(data) as InitEvent;
         if (message.event === "init") {
           // Create a new user
           user = new User((message.payload.username as string), ws)
