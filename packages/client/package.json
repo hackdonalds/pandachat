@@ -4,8 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --target=es2015 --outfile=dist/bundle.js --define:process.env.NODE_ENV=\\\"development\\\"",
-    "test": "esbuild src/tests/index.ts --bundle --outfile=dist/test.bundle.js --format=esm --target=es2016"
+    "build": "esbuild src/index.ts --bundle --target=es2015 --outfile=dist/bundle.js --define:process.env.NODE_ENV=\\\"development\\\""
   },
   "devDependencies": {
     "@types/mocha": "^8.2.1",
